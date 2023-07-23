@@ -22,14 +22,14 @@ class GamePanel : JPanel(), ActionListener {
 
     val x: IntArray = IntArray(GAME_UNITS)
     val y: IntArray = IntArray(GAME_UNITS)
-    var bodyParts: Int = 6
+    private var bodyParts: Int = 6
     private var appleEaten: Int = 0
-    var appleX: Int = 0
-    var appleY: Int = 0
+    private var appleX: Int = 0
+    private var appleY: Int = 0
     var direction: Char = 'R'
-    var running: Boolean = false
+    private var running: Boolean = false
     private var timer: Timer by Delegates.notNull()
-    var random: Random = Random()
+    private var random: Random = Random()
 
     init {
         this.preferredSize = Dimension(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -39,7 +39,7 @@ class GamePanel : JPanel(), ActionListener {
         startGame()
     }
 
-    fun startGame() {
+    private fun startGame() {
         newApple()
         running = true
         timer = Timer(DELAY, this)
@@ -51,7 +51,7 @@ class GamePanel : JPanel(), ActionListener {
         draw(g)
     }
 
-    fun draw(g: Graphics) {
+    private fun draw(g: Graphics) {
         if (running) {
             g.color = Color.RED
             g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE)
@@ -75,7 +75,7 @@ class GamePanel : JPanel(), ActionListener {
         }
     }
 
-    fun move() {
+    private fun move() {
         for (i in bodyParts downTo 1) {
             x[i] = x[i - 1]
             y[i] = y[i - 1]
@@ -89,12 +89,12 @@ class GamePanel : JPanel(), ActionListener {
         }
     }
 
-    fun newApple() {
+    private fun newApple() {
         appleX = random.nextInt(SCREEN_WIDTH / UNIT_SIZE) * UNIT_SIZE
         appleY = random.nextInt(SCREEN_HEIGHT / UNIT_SIZE) * UNIT_SIZE
     }
 
-    fun checkApple() {
+    private fun checkApple() {
         if ((x[0] == appleX) && (y[0] == appleY)) {
             bodyParts++
             appleEaten++
@@ -102,7 +102,7 @@ class GamePanel : JPanel(), ActionListener {
         }
     }
 
-    fun checkCollisions() {
+    private fun checkCollisions() {
         for (i in bodyParts downTo 1) {
             if ((x[0] == x[i]) && (y[0] == y[i]))
                 running = false
@@ -115,7 +115,7 @@ class GamePanel : JPanel(), ActionListener {
         if (!running) timer.stop()
     }
 
-    fun gameOver(g: Graphics) {
+    private fun gameOver(g: Graphics) {
         g.color = Color.RED
         g.font = Font("Ink Free", Font.BOLD, 40)
         val metrics1: FontMetrics = getFontMetrics(g.font)
